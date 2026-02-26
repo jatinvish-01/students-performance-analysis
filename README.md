@@ -41,44 +41,6 @@ This ensures the dataset becomes reliable and ready for further analysis or mach
 
 ---
 
-## 🔍 Complete Data Cleaning Workflow (Code Overview)
-
-```python
-import pandas as pd
-import numpy as np
-
-# Load dataset
-df = pd.read_csv("student_performance_prediction.csv")
-
-# Basic inspection
-print(df.info())
-print(df.shape)
-print(df.describe())
-print(df.isnull().sum())
-
-# Handle invalid values
-df.loc[df["Study Hours per Week"] < 0, "Study Hours per Week"] = np.nan
-df.loc[(df["Attendance Rate"] < 0) | (df["Attendance Rate"] > 100), "Attendance Rate"] = np.nan
-df.loc[(df["Previous Grades"] < 0) | (df["Previous Grades"] > 100), "Previous Grades"] = np.nan
-
-# Fill missing values
-for col in df.select_dtypes(include=np.number).columns:
-    df[col] = df[col].fillna(df[col].median())
-
-for col in df.select_dtypes(include="object").columns:
-    df[col] = df[col].fillna(df[col].mode()[0])
-
-# Remove duplicates
-df = df.drop_duplicates()
-
-# Save cleaned dataset
-df.to_csv("cleaned_student_performance.csv", index=False)
-
-print("Data cleaning completed successfully ✅")
-```
-
----
-
 ## 🎯 Key Highlights
 
 ✔ Structured preprocessing workflow  
